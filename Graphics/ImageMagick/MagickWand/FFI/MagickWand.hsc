@@ -453,6 +453,9 @@ foreign import ccall "MagickSetLastIterator" magickSetLastIterator
 foreign import ccall "MagickRelinquishMemory" magickRelinquishMemory
   :: Ptr () -> IO ()
 
+foreign import ccall "MagickIdentifyImage" magickIdentifyImage
+  :: Ptr MagickWand -> IO CString
+
 foreign import ccall "MagickGetColorspace" magickGetColorspace
   :: Ptr MagickWand -> IO ColorspaceType
 

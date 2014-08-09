@@ -191,7 +191,7 @@ module Graphics.ImageMagick.MagickWand.WandImage
 -- , haldClutImage
 -- , hasNextImage
 -- , hasPreviousImage
--- , identifyImage
+   , identifyImage
 -- , implodeImage
 -- , importImagePixels
 -- , inverseFourierTransformImage
@@ -348,6 +348,7 @@ import qualified Data.Vector.Storable                           as V
 import           Filesystem.Path.CurrentOS
 import           Foreign hiding (void)
 import           Foreign.C.Types
+import           Foreign.C.String
 import           Graphics.ImageMagick.MagickCore.Types
 import qualified Graphics.ImageMagick.MagickWand.FFI.MagickWand as F
 import           Graphics.ImageMagick.MagickWand.FFI.Types
@@ -358,6 +359,11 @@ import           Graphics.ImageMagick.MagickWand.Types
 import           Graphics.ImageMagick.MagickWand.Utils
 import           Prelude                                        hiding
                                                                  (FilePath)
+
+identifyImage :: (MonadResource m) => Ptr MagickWand -> m String
+identifyImage w = liftIO $ do
+    cstr <- F.magickIdentifyImage w
+    peekCString cstr
 
 getImageHeight :: (MonadResource m) => Ptr MagickWand -> m Int
 getImageHeight w = liftIO $ fmap fromIntegral (F.magickGetImageHeight w)
